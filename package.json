@@ -9,10 +9,26 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~47.0.9",
+    "@aws-amplify/datastore": "^4.1.11",
+    "@react-native-async-storage/async-storage": "^1.18.1",
+    "@react-native-community/netinfo": "^9.3.9",
+    "@react-native-picker/picker": "^2.4.10",
+    "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/material-bottom-tabs": "^6.2.15",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native-stack": "^6.9.12",
+    "amazon-cognito-identity-js": "^6.2.0",
+    "aws-amplify": "^5.2.4",
+    "aws-amplify-react-native": "^7.0.2",
+    "core-js": "^3.30.1",
+    "expo": "^48.0.9",
     "expo-status-bar": "~1.4.2",
-    "react": "18.1.0",
-    "react-native": "0.70.5"
+    "react": "18.2.0",
+    "react-native": "0.71.7",
+    "react-native-paper": "^5.5.1",
+    "react-native-safe-area-context": "4.5.0",
+    "react-native-screens": "~3.20.0",
+    "react-native-vector-icons": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

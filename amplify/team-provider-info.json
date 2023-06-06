@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mysterybox-staging-215145-authRole",
+      "UnauthRoleArn": "arn:aws:iam::703840064840:role/amplify-mysterybox-staging-215145-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::703840064840:role/amplify-mysterybox-staging-215145-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-mysterybox-staging-215145-deployment",
+      "UnauthRoleName": "amplify-mysterybox-staging-215145-unauthRole",
+      "StackName": "amplify-mysterybox-staging-215145",
+      "StackId": "arn:aws:cloudformation:us-east-1:703840064840:stack/amplify-mysterybox-staging-215145/8b3a5280-dfc5-11ed-88fc-12d86322d77b",
+      "AmplifyAppId": "d39lh4v41cx3qv"
+    },
+    "categories": {
+      "auth": {
+        "MysteryBox": {}
+      }
+    }
+  }
+}
