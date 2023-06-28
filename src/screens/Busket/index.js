@@ -1,106 +1,91 @@
-import { useState } from "react";
-import { View,Text, StyleSheet, FlatList  } from "react-native";
-import restaurants from './../../../assets/data/restaurants.json';
-import {AntDesign} from '@expo/vector-icons';
-import BusketListItem from "../../components/BasketListItem";
+import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
+import BasketListItem from "../../components/BasketListItem";
+import { useBasketContext } from "../../contexts/BasketContext";
+import { useOrderContext } from "../../contexts/OrderContext";
+import { useNavigation } from "@react-navigation/native";
 
+const Basket = () => {
+  const { restaurant, basketDishes, totalPrice } = useBasketContext();
+  const { createOrder } = useOrderContext();
+  const navigation = useNavigation();
 
-const restaurant =  restaurants[0];
+  const onCreateOrder = async () => {
+    await createOrder();
+    navigation.goBack();
+  };
 
-// const BusketListItem = ({BusketList}) => {
-//     return(
-//         <View style={styles.row}>
-//         <View style={styles.quantityContainer}>
-//             <Text>1</Text>
-//         </View>
-//         <Text style={{fontWeight: '600'}}>{BusketList.name}</Text>
-//     <Text style={{marginLeft: 'auto',}}>Rs {BusketList.price}</Text>
-//     </View>
-    
-//     );
-// };
+  return (
+    <View style={styles.page}>
+      <Text style={styles.name}>{restaurant?.name}</Text>
 
-const Busket = () => {
+      <Text style={{ fontWeight: "bold", marginTop: 20, fontSize: 19 }}>
+        Your items
+      </Text>
 
-    return(
-        <View style={styles.page}>
-            
-            <Text style={styles.name}>{restaurant.name}</Text>
+      <FlatList
+        data={basketDishes}
+        renderItem={({ item }) => <BasketListItem basketDish={item} />}
+      />
 
-            <Text style={{fontWeight: 'bold', fontSize: 19, marginTop: 20,}}>Your Item</Text>
+      <View style={styles.separator} />
 
-           <FlatList
-           showsVerticalScrollIndicator={false}
-            data={restaurant.dishes}
-            renderItem={({item}) => <BusketListItem BusketList={item}/>}
-           />
-            
-            
-            <View style={styles.separator}/>
-
-            <View style={styles.button}>
-                <Text style={styles.buttonText}>Create Order</Text>
-            </View>        
-
-        </View>
-    );
+      <Pressable onPress={onCreateOrder} style={styles.button}>
+        <Text style={styles.buttonText}>
+          Create order &#8226; Rs.{totalPrice.toFixed(2)}
+        </Text>
+      </Pressable>
+    </View>
+  );
 };
 
-
 const styles = StyleSheet.create({
-    page: {
-        flex: 1,
-        width: "100%",
-        paddingVertical: 20, //temp Fix
-        padding: 10,
-    },
-    name: {
-        fontSize: 30,
-        fontWeight: "600",
-        marginVertical: 10,
-    },
-    separator: {
-        height: 1,
-        backgroundColor: 'lightgray',
-        marginVertical: 10,
-    },
-
-    description: {
-        textAlign: 'justify',
-        // padding: 10,
-        color: '#696969',
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginVertical:15,
-        paddingHorizontal: 10,
-
-    },
-    quantity: {
-        fontSize: 25,
-        fontWeight: "450",
-        marginHorizontal: 20,
-    },
-    button: {
-        backgroundColor: "black",
-        marginTop: 'auto',
-        padding: 20,
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: 'white',
-        fontWeight: '600',
-        fontSize: 18,
-    },
-    quantityContainer: {
-        backgroundColor: 'lightgray',
-        paddingHorizontal: 5,
-        paddingVertical: 2,
-        marginRight: 10,
-        borderRadius: 3,
-    },
-    
+  page: {
+    flex: 1,
+    width: "100%",
+    paddingVertical: 40, // temp fix
+    padding: 10,
+  },
+  name: {
+    fontSize: 24,
+    fontWeight: "600",
+    marginVertical: 10,
+  },
+  description: {
+    color: "gray",
+  },
+  separator: {
+    height: 1,
+    backgroundColor: "lightgrey",
+    marginVertical: 10,
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 15,
+    paddingHorizontal: 10,
+  },
+  quantity: {
+    fontSize: 25,
+    marginHorizontal: 20,
+  },
+  button: {
+    backgroundColor: "black",
+    marginTop: "auto",
+    padding: 20,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "600",
+    fontSize: 18,
+  },
+  quantityContainer: {
+    backgroundColor: "lightgray",
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    marginRight: 10,
+    borderRadius: 3,
+  },
 });
 
-export default Busket;
+export default Basket;

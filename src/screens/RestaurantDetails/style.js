@@ -26,5 +26,18 @@ export default  StyleSheet.create({
     container: {
         margin: 10,
     },
+
+    button: {
+        backgroundColor: "black",
+        marginTop: "auto",
+        padding: 20,
+        alignItems: "center",
+        margin: 10,
+    },
+      buttonText: {
+        color: "white",
+        fontWeight: "600",
+        fontSize: 18,
+      },
    
 });
