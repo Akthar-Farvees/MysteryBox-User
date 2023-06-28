@@ -1,0 +1,13 @@
+{
+    "AppSyncApiName": "MysteryBox",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "S3DeploymentBucket": "amplify-mysterybox-staging-215145-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/978ce84e4419fa252f0f0ce8fc6ac296af2db32f"
+}

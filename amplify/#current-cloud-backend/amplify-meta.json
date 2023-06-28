@@ -1,0 +1,92 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mysterybox-staging-215145-authRole",
+      "UnauthRoleArn": "arn:aws:iam::703840064840:role/amplify-mysterybox-staging-215145-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::703840064840:role/amplify-mysterybox-staging-215145-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-mysterybox-staging-215145-deployment",
+      "UnauthRoleName": "amplify-mysterybox-staging-215145-unauthRole",
+      "StackName": "amplify-mysterybox-staging-215145",
+      "StackId": "arn:aws:cloudformation:us-east-1:703840064840:stack/amplify-mysterybox-staging-215145/8b3a5280-dfc5-11ed-88fc-12d86322d77b",
+      "AmplifyAppId": "d39lh4v41cx3qv"
+    }
+  },
+  "api": {
+    "MysteryBox": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            }
+          }
+        },
+        "GraphQLAPIIdOutput": "sqn4vtifqjfwljkfui4ecwpmuy",
+        "GraphQLAPIEndpointOutput": "https://dg3fprepg5bhvia76a7h24crze.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-zh4yspwkd5fpdfubizlmcabf3a"
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync",
+      "lastPushTimeStamp": "2023-06-02T15:19:28.973Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-mysterybox-staging-215145-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiMysteryBox"
+      },
+      "lastPushDirHash": "V6CpeGdXSh18zs/uWN8atCM1WOo="
+    }
+  },
+  "auth": {
+    "MysteryBox": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS",
+            "REQUIRES_UPPERCASE"
+          ]
+        },
+        "signupAttributes": [],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "output": {
+        "UserPoolId": "us-east-1_ePerUV5Ha",
+        "AppClientIDWeb": "4fm4usemtf7d68j5hqlbbiap2",
+        "AppClientID": "2bblc9c79ccg7qubsfmchnafka",
+        "IdentityPoolId": "us-east-1:469ec554-166b-4b2c-934d-b68858622b55",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:703840064840:userpool/us-east-1_ePerUV5Ha",
+        "IdentityPoolName": "testAuthIdentityPool__staging",
+        "UserPoolName": "MysteryBox"
+      },
+      "lastPushTimeStamp": "2023-06-02T15:19:28.923Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-mysterybox-staging-215145-deployment/amplify-cfn-templates/auth/MysteryBox-cloudformation-template.json",
+        "logicalId": "authMysteryBox"
+      }
+    }
+  }
+}

@@ -1,0 +1,796 @@
+type OrderDish @aws_iam @aws_api_key {
+  id: ID!
+  quantity: Int!
+  orderID: ID!
+  Dish: Dish
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  orderDishDishId: ID
+}
+
+enum OrderStatus {
+  NEW
+  COOKING
+  READY_FOR_PICKUP
+  PICKED_UP
+  COMPLETED
+}
+
+type Order @aws_iam @aws_api_key {
+  id: ID!
+  userID: ID!
+  status: OrderStatus!
+  Restaurant: Restaurant
+  OrderDishes(filter: ModelOrderDishFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelOrderDishConnection
+  total: Float!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  orderRestaurantId: ID
+}
+
+type BasketDish @aws_iam @aws_api_key {
+  id: ID!
+  quantity: Int!
+  Dish: Dish
+  basketID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  basketDishDishId: ID
+}
+
+type Basket @aws_iam @aws_api_key {
+  id: ID!
+  userID: ID!
+  restaurantID: ID!
+  BasketDishes(filter: ModelBasketDishFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelBasketDishConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type User @aws_iam @aws_api_key {
+  id: ID!
+  sub: String!
+  name: String!
+  address: String!
+  lat: Float!
+  lng: Float!
+  Baskets(filter: ModelBasketFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelBasketConnection
+  Orders(filter: ModelOrderFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelOrderConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Dish @aws_iam @aws_api_key {
+  id: ID!
+  name: String!
+  image: String
+  description: String
+  price: Float!
+  restaurantID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Restaurant @aws_iam @aws_api_key {
+  id: ID!
+  name: String!
+  image: String!
+  deliveryFee: Float!
+  minDeliveryTime: Int!
+  maxDeliveryTime: Int!
+  rating: Float
+  address: String!
+  lat: Float!
+  lng: Float!
+  Dishes(filter: ModelDishFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelDishConnection
+  Baskets(filter: ModelBasketFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelBasketConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelOrderDishConnection @aws_api_key @aws_iam {
+  items: [OrderDish]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelOrderDishFilterInput {
+  id: ModelIDInput
+  quantity: ModelIntInput
+  orderID: ModelIDInput
+  and: [ModelOrderDishFilterInput]
+  or: [ModelOrderDishFilterInput]
+  not: ModelOrderDishFilterInput
+  _deleted: ModelBooleanInput
+  orderDishDishId: ModelIDInput
+}
+
+type Query {
+  getOrderDish(id: ID!): OrderDish @aws_api_key @aws_iam
+  listOrderDishes(filter: ModelOrderDishFilterInput, limit: Int, nextToken: String): ModelOrderDishConnection @aws_api_key @aws_iam
+  syncOrderDishes(filter: ModelOrderDishFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelOrderDishConnection @aws_api_key @aws_iam
+  orderDishesByOrderID(orderID: ID!, sortDirection: ModelSortDirection, filter: ModelOrderDishFilterInput, limit: Int, nextToken: String): ModelOrderDishConnection @aws_api_key @aws_iam
+  getOrder(id: ID!): Order @aws_api_key @aws_iam
+  listOrders(filter: ModelOrderFilterInput, limit: Int, nextToken: String): ModelOrderConnection @aws_api_key @aws_iam
+  syncOrders(filter: ModelOrderFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelOrderConnection @aws_api_key @aws_iam
+  ordersByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelOrderFilterInput, limit: Int, nextToken: String): ModelOrderConnection @aws_api_key @aws_iam
+  getBasketDish(id: ID!): BasketDish @aws_api_key @aws_iam
+  listBasketDishes(filter: ModelBasketDishFilterInput, limit: Int, nextToken: String): ModelBasketDishConnection @aws_api_key @aws_iam
+  syncBasketDishes(filter: ModelBasketDishFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelBasketDishConnection @aws_api_key @aws_iam
+  basketDishesByBasketID(basketID: ID!, sortDirection: ModelSortDirection, filter: ModelBasketDishFilterInput, limit: Int, nextToken: String): ModelBasketDishConnection @aws_api_key @aws_iam
+  getBasket(id: ID!): Basket @aws_api_key @aws_iam
+  listBaskets(filter: ModelBasketFilterInput, limit: Int, nextToken: String): ModelBasketConnection @aws_api_key @aws_iam
+  syncBaskets(filter: ModelBasketFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelBasketConnection @aws_api_key @aws_iam
+  basketsByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelBasketFilterInput, limit: Int, nextToken: String): ModelBasketConnection @aws_api_key @aws_iam
+  basketsByRestaurantID(restaurantID: ID!, sortDirection: ModelSortDirection, filter: ModelBasketFilterInput, limit: Int, nextToken: String): ModelBasketConnection @aws_api_key @aws_iam
+  getUser(id: ID!): User @aws_api_key @aws_iam
+  listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection @aws_api_key @aws_iam
+  syncUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelUserConnection @aws_api_key @aws_iam
+  getDish(id: ID!): Dish @aws_api_key @aws_iam
+  listDishes(filter: ModelDishFilterInput, limit: Int, nextToken: String): ModelDishConnection @aws_api_key @aws_iam
+  syncDishes(filter: ModelDishFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelDishConnection @aws_api_key @aws_iam
+  dishesByRestaurantID(restaurantID: ID!, sortDirection: ModelSortDirection, filter: ModelDishFilterInput, limit: Int, nextToken: String): ModelDishConnection @aws_api_key @aws_iam
+  getRestaurant(id: ID!): Restaurant @aws_api_key @aws_iam
+  listRestaurants(filter: ModelRestaurantFilterInput, limit: Int, nextToken: String): ModelRestaurantConnection @aws_api_key @aws_iam
+  syncRestaurants(filter: ModelRestaurantFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelRestaurantConnection @aws_api_key @aws_iam
+}
+
+input ModelOrderDishConditionInput {
+  quantity: ModelIntInput
+  orderID: ModelIDInput
+  and: [ModelOrderDishConditionInput]
+  or: [ModelOrderDishConditionInput]
+  not: ModelOrderDishConditionInput
+  _deleted: ModelBooleanInput
+  orderDishDishId: ModelIDInput
+}
+
+input CreateOrderDishInput {
+  id: ID
+  quantity: Int!
+  orderID: ID!
+  _version: Int
+  orderDishDishId: ID
+}
+
+input UpdateOrderDishInput {
+  id: ID!
+  quantity: Int
+  orderID: ID
+  _version: Int
+  orderDishDishId: ID
+}
+
+input DeleteOrderDishInput {
+  id: ID!
+  _version: Int
+}
+
+type Mutation {
+  createOrderDish(input: CreateOrderDishInput!, condition: ModelOrderDishConditionInput): OrderDish @aws_api_key @aws_iam
+  updateOrderDish(input: UpdateOrderDishInput!, condition: ModelOrderDishConditionInput): OrderDish @aws_api_key @aws_iam
+  deleteOrderDish(input: DeleteOrderDishInput!, condition: ModelOrderDishConditionInput): OrderDish @aws_api_key @aws_iam
+  createOrder(input: CreateOrderInput!, condition: ModelOrderConditionInput): Order @aws_api_key @aws_iam
+  updateOrder(input: UpdateOrderInput!, condition: ModelOrderConditionInput): Order @aws_api_key @aws_iam
+  deleteOrder(input: DeleteOrderInput!, condition: ModelOrderConditionInput): Order @aws_api_key @aws_iam
+  createBasketDish(input: CreateBasketDishInput!, condition: ModelBasketDishConditionInput): BasketDish @aws_api_key @aws_iam
+  updateBasketDish(input: UpdateBasketDishInput!, condition: ModelBasketDishConditionInput): BasketDish @aws_api_key @aws_iam
+  deleteBasketDish(input: DeleteBasketDishInput!, condition: ModelBasketDishConditionInput): BasketDish @aws_api_key @aws_iam
+  createBasket(input: CreateBasketInput!, condition: ModelBasketConditionInput): Basket @aws_api_key @aws_iam
+  updateBasket(input: UpdateBasketInput!, condition: ModelBasketConditionInput): Basket @aws_api_key @aws_iam
+  deleteBasket(input: DeleteBasketInput!, condition: ModelBasketConditionInput): Basket @aws_api_key @aws_iam
+  createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User @aws_api_key @aws_iam
+  updateUser(input: UpdateUserInput!, condition: ModelUserConditionInput): User @aws_api_key @aws_iam
+  deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User @aws_api_key @aws_iam
+  createDish(input: CreateDishInput!, condition: ModelDishConditionInput): Dish @aws_api_key @aws_iam
+  updateDish(input: UpdateDishInput!, condition: ModelDishConditionInput): Dish @aws_api_key @aws_iam
+  deleteDish(input: DeleteDishInput!, condition: ModelDishConditionInput): Dish @aws_api_key @aws_iam
+  createRestaurant(input: CreateRestaurantInput!, condition: ModelRestaurantConditionInput): Restaurant @aws_api_key @aws_iam
+  updateRestaurant(input: UpdateRestaurantInput!, condition: ModelRestaurantConditionInput): Restaurant @aws_api_key @aws_iam
+  deleteRestaurant(input: DeleteRestaurantInput!, condition: ModelRestaurantConditionInput): Restaurant @aws_api_key @aws_iam
+}
+
+input ModelSubscriptionOrderDishFilterInput {
+  id: ModelSubscriptionIDInput
+  quantity: ModelSubscriptionIntInput
+  orderID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionOrderDishFilterInput]
+  or: [ModelSubscriptionOrderDishFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type Subscription {
+  onCreateOrderDish(filter: ModelSubscriptionOrderDishFilterInput): OrderDish @aws_subscribe(mutations: ["createOrderDish"]) @aws_api_key @aws_iam
+  onUpdateOrderDish(filter: ModelSubscriptionOrderDishFilterInput): OrderDish @aws_subscribe(mutations: ["updateOrderDish"]) @aws_api_key @aws_iam
+  onDeleteOrderDish(filter: ModelSubscriptionOrderDishFilterInput): OrderDish @aws_subscribe(mutations: ["deleteOrderDish"]) @aws_api_key @aws_iam
+  onCreateOrder(filter: ModelSubscriptionOrderFilterInput): Order @aws_subscribe(mutations: ["createOrder"]) @aws_api_key @aws_iam
+  onUpdateOrder(filter: ModelSubscriptionOrderFilterInput): Order @aws_subscribe(mutations: ["updateOrder"]) @aws_api_key @aws_iam
+  onDeleteOrder(filter: ModelSubscriptionOrderFilterInput): Order @aws_subscribe(mutations: ["deleteOrder"]) @aws_api_key @aws_iam
+  onCreateBasketDish(filter: ModelSubscriptionBasketDishFilterInput): BasketDish @aws_subscribe(mutations: ["createBasketDish"]) @aws_api_key @aws_iam
+  onUpdateBasketDish(filter: ModelSubscriptionBasketDishFilterInput): BasketDish @aws_subscribe(mutations: ["updateBasketDish"]) @aws_api_key @aws_iam
+  onDeleteBasketDish(filter: ModelSubscriptionBasketDishFilterInput): BasketDish @aws_subscribe(mutations: ["deleteBasketDish"]) @aws_api_key @aws_iam
+  onCreateBasket(filter: ModelSubscriptionBasketFilterInput): Basket @aws_subscribe(mutations: ["createBasket"]) @aws_api_key @aws_iam
+  onUpdateBasket(filter: ModelSubscriptionBasketFilterInput): Basket @aws_subscribe(mutations: ["updateBasket"]) @aws_api_key @aws_iam
+  onDeleteBasket(filter: ModelSubscriptionBasketFilterInput): Basket @aws_subscribe(mutations: ["deleteBasket"]) @aws_api_key @aws_iam
+  onCreateUser(filter: ModelSubscriptionUserFilterInput): User @aws_subscribe(mutations: ["createUser"]) @aws_api_key @aws_iam
+  onUpdateUser(filter: ModelSubscriptionUserFilterInput): User @aws_subscribe(mutations: ["updateUser"]) @aws_api_key @aws_iam
+  onDeleteUser(filter: ModelSubscriptionUserFilterInput): User @aws_subscribe(mutations: ["deleteUser"]) @aws_api_key @aws_iam
+  onCreateDish(filter: ModelSubscriptionDishFilterInput): Dish @aws_subscribe(mutations: ["createDish"]) @aws_api_key @aws_iam
+  onUpdateDish(filter: ModelSubscriptionDishFilterInput): Dish @aws_subscribe(mutations: ["updateDish"]) @aws_api_key @aws_iam
+  onDeleteDish(filter: ModelSubscriptionDishFilterInput): Dish @aws_subscribe(mutations: ["deleteDish"]) @aws_api_key @aws_iam
+  onCreateRestaurant(filter: ModelSubscriptionRestaurantFilterInput): Restaurant @aws_subscribe(mutations: ["createRestaurant"]) @aws_api_key @aws_iam
+  onUpdateRestaurant(filter: ModelSubscriptionRestaurantFilterInput): Restaurant @aws_subscribe(mutations: ["updateRestaurant"]) @aws_api_key @aws_iam
+  onDeleteRestaurant(filter: ModelSubscriptionRestaurantFilterInput): Restaurant @aws_subscribe(mutations: ["deleteRestaurant"]) @aws_api_key @aws_iam
+}
+
+type ModelOrderConnection @aws_api_key @aws_iam {
+  items: [Order]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelOrderStatusInput {
+  eq: OrderStatus
+  ne: OrderStatus
+}
+
+input ModelOrderFilterInput {
+  id: ModelIDInput
+  userID: ModelIDInput
+  status: ModelOrderStatusInput
+  total: ModelFloatInput
+  and: [ModelOrderFilterInput]
+  or: [ModelOrderFilterInput]
+  not: ModelOrderFilterInput
+  _deleted: ModelBooleanInput
+  orderRestaurantId: ModelIDInput
+}
+
+input ModelOrderConditionInput {
+  userID: ModelIDInput
+  status: ModelOrderStatusInput
+  total: ModelFloatInput
+  and: [ModelOrderConditionInput]
+  or: [ModelOrderConditionInput]
+  not: ModelOrderConditionInput
+  _deleted: ModelBooleanInput
+  orderRestaurantId: ModelIDInput
+}
+
+input CreateOrderInput {
+  id: ID
+  userID: ID!
+  status: OrderStatus!
+  total: Float!
+  _version: Int
+  orderRestaurantId: ID
+}
+
+input UpdateOrderInput {
+  id: ID!
+  userID: ID
+  status: OrderStatus
+  total: Float
+  _version: Int
+  orderRestaurantId: ID
+}
+
+input DeleteOrderInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionOrderFilterInput {
+  id: ModelSubscriptionIDInput
+  userID: ModelSubscriptionIDInput
+  status: ModelSubscriptionStringInput
+  total: ModelSubscriptionFloatInput
+  and: [ModelSubscriptionOrderFilterInput]
+  or: [ModelSubscriptionOrderFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelBasketDishConnection @aws_api_key @aws_iam {
+  items: [BasketDish]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelBasketDishFilterInput {
+  id: ModelIDInput
+  quantity: ModelIntInput
+  basketID: ModelIDInput
+  and: [ModelBasketDishFilterInput]
+  or: [ModelBasketDishFilterInput]
+  not: ModelBasketDishFilterInput
+  _deleted: ModelBooleanInput
+  basketDishDishId: ModelIDInput
+}
+
+input ModelBasketDishConditionInput {
+  quantity: ModelIntInput
+  basketID: ModelIDInput
+  and: [ModelBasketDishConditionInput]
+  or: [ModelBasketDishConditionInput]
+  not: ModelBasketDishConditionInput
+  _deleted: ModelBooleanInput
+  basketDishDishId: ModelIDInput
+}
+
+input CreateBasketDishInput {
+  id: ID
+  quantity: Int!
+  basketID: ID!
+  _version: Int
+  basketDishDishId: ID
+}
+
+input UpdateBasketDishInput {
+  id: ID!
+  quantity: Int
+  basketID: ID
+  _version: Int
+  basketDishDishId: ID
+}
+
+input DeleteBasketDishInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionBasketDishFilterInput {
+  id: ModelSubscriptionIDInput
+  quantity: ModelSubscriptionIntInput
+  basketID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionBasketDishFilterInput]
+  or: [ModelSubscriptionBasketDishFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelBasketConnection @aws_api_key @aws_iam {
+  items: [Basket]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelBasketFilterInput {
+  id: ModelIDInput
+  userID: ModelIDInput
+  restaurantID: ModelIDInput
+  and: [ModelBasketFilterInput]
+  or: [ModelBasketFilterInput]
+  not: ModelBasketFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelBasketConditionInput {
+  userID: ModelIDInput
+  restaurantID: ModelIDInput
+  and: [ModelBasketConditionInput]
+  or: [ModelBasketConditionInput]
+  not: ModelBasketConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateBasketInput {
+  id: ID
+  userID: ID!
+  restaurantID: ID!
+  _version: Int
+}
+
+input UpdateBasketInput {
+  id: ID!
+  userID: ID
+  restaurantID: ID
+  _version: Int
+}
+
+input DeleteBasketInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionBasketFilterInput {
+  id: ModelSubscriptionIDInput
+  userID: ModelSubscriptionIDInput
+  restaurantID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionBasketFilterInput]
+  or: [ModelSubscriptionBasketFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelUserConnection @aws_api_key @aws_iam {
+  items: [User]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelUserFilterInput {
+  id: ModelIDInput
+  sub: ModelStringInput
+  name: ModelStringInput
+  address: ModelStringInput
+  lat: ModelFloatInput
+  lng: ModelFloatInput
+  and: [ModelUserFilterInput]
+  or: [ModelUserFilterInput]
+  not: ModelUserFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelUserConditionInput {
+  sub: ModelStringInput
+  name: ModelStringInput
+  address: ModelStringInput
+  lat: ModelFloatInput
+  lng: ModelFloatInput
+  and: [ModelUserConditionInput]
+  or: [ModelUserConditionInput]
+  not: ModelUserConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateUserInput {
+  id: ID
+  sub: String!
+  name: String!
+  address: String!
+  lat: Float!
+  lng: Float!
+  _version: Int
+}
+
+input UpdateUserInput {
+  id: ID!
+  sub: String
+  name: String
+  address: String
+  lat: Float
+  lng: Float
+  _version: Int
+}
+
+input DeleteUserInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionUserFilterInput {
+  id: ModelSubscriptionIDInput
+  sub: ModelSubscriptionStringInput
+  name: ModelSubscriptionStringInput
+  address: ModelSubscriptionStringInput
+  lat: ModelSubscriptionFloatInput
+  lng: ModelSubscriptionFloatInput
+  and: [ModelSubscriptionUserFilterInput]
+  or: [ModelSubscriptionUserFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelDishConnection @aws_api_key @aws_iam {
+  items: [Dish]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelDishFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  image: ModelStringInput
+  description: ModelStringInput
+  price: ModelFloatInput
+  restaurantID: ModelIDInput
+  and: [ModelDishFilterInput]
+  or: [ModelDishFilterInput]
+  not: ModelDishFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelDishConditionInput {
+  name: ModelStringInput
+  image: ModelStringInput
+  description: ModelStringInput
+  price: ModelFloatInput
+  restaurantID: ModelIDInput
+  and: [ModelDishConditionInput]
+  or: [ModelDishConditionInput]
+  not: ModelDishConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateDishInput {
+  id: ID
+  name: String!
+  image: String
+  description: String
+  price: Float!
+  restaurantID: ID!
+  _version: Int
+}
+
+input UpdateDishInput {
+  id: ID!
+  name: String
+  image: String
+  description: String
+  price: Float
+  restaurantID: ID
+  _version: Int
+}
+
+input DeleteDishInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionDishFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  image: ModelSubscriptionStringInput
+  description: ModelSubscriptionStringInput
+  price: ModelSubscriptionFloatInput
+  restaurantID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionDishFilterInput]
+  or: [ModelSubscriptionDishFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelRestaurantConnection @aws_api_key @aws_iam {
+  items: [Restaurant]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelRestaurantFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  image: ModelStringInput
+  deliveryFee: ModelFloatInput
+  minDeliveryTime: ModelIntInput
+  maxDeliveryTime: ModelIntInput
+  rating: ModelFloatInput
+  address: ModelStringInput
+  lat: ModelFloatInput
+  lng: ModelFloatInput
+  and: [ModelRestaurantFilterInput]
+  or: [ModelRestaurantFilterInput]
+  not: ModelRestaurantFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelRestaurantConditionInput {
+  name: ModelStringInput
+  image: ModelStringInput
+  deliveryFee: ModelFloatInput
+  minDeliveryTime: ModelIntInput
+  maxDeliveryTime: ModelIntInput
+  rating: ModelFloatInput
+  address: ModelStringInput
+  lat: ModelFloatInput
+  lng: ModelFloatInput
+  and: [ModelRestaurantConditionInput]
+  or: [ModelRestaurantConditionInput]
+  not: ModelRestaurantConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateRestaurantInput {
+  id: ID
+  name: String!
+  image: String!
+  deliveryFee: Float!
+  minDeliveryTime: Int!
+  maxDeliveryTime: Int!
+  rating: Float
+  address: String!
+  lat: Float!
+  lng: Float!
+  _version: Int
+}
+
+input UpdateRestaurantInput {
+  id: ID!
+  name: String
+  image: String
+  deliveryFee: Float
+  minDeliveryTime: Int
+  maxDeliveryTime: Int
+  rating: Float
+  address: String
+  lat: Float
+  lng: Float
+  _version: Int
+}
+
+input DeleteRestaurantInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionRestaurantFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  image: ModelSubscriptionStringInput
+  deliveryFee: ModelSubscriptionFloatInput
+  minDeliveryTime: ModelSubscriptionIntInput
+  maxDeliveryTime: ModelSubscriptionIntInput
+  rating: ModelSubscriptionFloatInput
+  address: ModelSubscriptionStringInput
+  lat: ModelSubscriptionFloatInput
+  lng: ModelSubscriptionFloatInput
+  and: [ModelSubscriptionRestaurantFilterInput]
+  or: [ModelSubscriptionRestaurantFilterInput]
+  _deleted: ModelBooleanInput
+}
